@@ -20,7 +20,7 @@ st.set_page_config(
 # Session states
 ss = st.session_state
 initial_variables = {'select_all':False, 'simulate_button':False}
-for var,val in initial_variables:
+for var,val in initial_variables.items():
     if var not in ss:
         ss[var] = val
 
