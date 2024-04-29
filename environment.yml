@@ -1,0 +1,24 @@
+# To create a conda environment from this file, run the following command in Anaconda Prompt. Replace ENV_NAME with the desired name for the new environment, and FILE_NAME with the name of this file.
+# conda env create --name ENV_NAME --file FILE_NAME.yml
+# 
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  # python version
+  - python=3.10
+  # main data science packages.
+  - streamlit=1.33.0 # conda. Latest streamlit version as of 2024 April 24.
+  - pandas=2.2 # conda
+  - numpy=1.26 # conda
+  - plotly=5.21 # conda
+  - pip=24.0 # conda. needed to install packages that only work when pip-installed.
+  
+  
+  # # The lines below are for packages to be pip-installed. Leave these COMMENTED if you won't use them.
+  # # The `- pip:` line must be uncommented if you want to use these lines.
+
+  - pip:
+    # - streamlit==1.33.0 # pip. If the streamlit line above doesn't work, or `streamlit run app.py` doesn't work in anaconda prompt (windows) or terminal (mac), use this one.
+    # - pywin32==300 # pip. for VS Code Python Interactive kernel to work. Only for Windows users. Not strictly necessary.
+    - streamlit-extras
