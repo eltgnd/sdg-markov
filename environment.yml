@@ -13,6 +13,7 @@ dependencies:
   - numpy=1.26 # conda
   - plotly=5.21 # conda
   - pip=24.0 # conda. needed to install packages that only work when pip-installed.
+  - sympy # conda.
   
   
   # # The lines below are for packages to be pip-installed. Leave these COMMENTED if you won't use them.
