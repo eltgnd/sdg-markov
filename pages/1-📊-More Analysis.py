@@ -78,7 +78,7 @@ for i in range(16):
 with st.expander('View Correlation Matrix'):
     st.write('Sourced at https://link.springer.com/article/10.1007/s11135-022-01443-4.')
     st.dataframe(corr_mat, hide_index=False)
-
+    
 # Bar chart net contribution correlation
 corr_results = pd.read_csv('correlation_results.csv')
 fig = px.bar(corr_results, x='Unnamed: 0', y=['Total Positive Contribution', 'Total Negative Contribution'],

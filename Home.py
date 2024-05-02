@@ -81,78 +81,78 @@ with st.form('simulation'):
 if s:
     activate('simulate_button', s)
     
+if ss.simulate_button:
+    # Simulation
+    df = pd.read_csv('data.csv')
 
-# Simulation
-df = pd.read_csv('data.csv')
+    # Set-up
+    sdg_number = int(sdg.split()[1][:-1])
+    st.caption(f'SET-UP FOR SDG {sdg_number}')
 
-# Set-up
-sdg_number = int(sdg.split()[1][:-1])
-st.caption(f'SET-UP FOR SDG {sdg_number}')
+    initial_mat = create_initial_state_vector(df, sdg_number, current_year)
+    trans_mat = create_transition_matrix(convert_sdg_states(df, sdg_number))
+    with st.container(border=True):
+        st.write('\n')
+        col1, col2, col3 = st.columns([0.5,0.7,0.2])
+        with col1:
+            st.write(f"""Initial state vector $=$ ${list_to_latex_matrix(initial_mat)}$""")
+        with col2:
+            st.write(f"""Transition matrix $=$ ${list_to_latex_matrix(trans_mat)}$""")
+        st.write('\n')
 
-initial_mat = create_initial_state_vector(df, sdg_number, current_year)
-trans_mat = create_transition_matrix(convert_sdg_states(df, sdg_number))
-with st.container(border=True):
-    st.write('\n')
-    col1, col2, col3 = st.columns([0.5,0.7,0.2])
-    with col1:
-        st.write(f"""Initial state vector $=$ ${list_to_latex_matrix(initial_mat)}$""")
-    with col2:
-        st.write(f"""Transition matrix $=$ ${list_to_latex_matrix(trans_mat)}$""")
-    st.write('\n')
+    # Markov chain result
+    st.caption('MARKOV CHAIN RESULT')
 
-# Markov chain result
-st.caption('MARKOV CHAIN RESULT')
+    result = markov_chain(df, sdg_number, t)
+    result['State'] = state_labels
+    result_df = pd.DataFrame(result)
 
-result = markov_chain(df, sdg_number, t)
-result['State'] = state_labels
-result_df = pd.DataFrame(result)
+    cols = result_df.columns.tolist()
+    result_df = result_df[cols[-1:] + cols[:-1]]
+    column_labels = {key:value for key,value in zip([i for i in range(len(result_df.keys()))],[2023+i for i in range(len(result_df.keys()))])}
 
-cols = result_df.columns.tolist()
-result_df = result_df[cols[-1:] + cols[:-1]]
-column_labels = {key:value for key,value in zip([i for i in range(len(result_df.keys()))],[2023+i for i in range(len(result_df.keys()))])}
+    result_df = result_df.rename(columns=column_labels)
+    st.dataframe(result_df, use_container_width =True, hide_index=True)
 
-result_df = result_df.rename(columns=column_labels)
-st.dataframe(result_df, use_container_width =True, hide_index=True)
+    # Convergent
+    st.write(f'''As $k\\rightarrow\infty$, the current model provides the following probabilities of each state:''')
 
-# Convergent
-st.write(f'''As $k\\rightarrow\infty$, the current model provides the following probabilities of each state:''')
+    convergence_test = markov_chain(df, sdg_number, convergence_val)
+    col1, col2, col3, col4 = st.columns(4)
+    for ind,col in enumerate([col1, col2, col3, col4]):
+        col.metric(state_labels[ind], convergence_test[convergence_val-1][ind])
+    style_metric_cards(box_shadow=False, border_left_color='#D3D3D3')
 
-convergence_test = markov_chain(df, sdg_number, convergence_val)
-col1, col2, col3, col4 = st.columns(4)
-for ind,col in enumerate([col1, col2, col3, col4]):
-    col.metric(state_labels[ind], convergence_test[convergence_val-1][ind])
-style_metric_cards(box_shadow=False, border_left_color='#D3D3D3')
-
-# Graph
-with st.container(border=True):
-    headers = result_df.transpose().iloc[0]
-    result_graph  = pd.DataFrame(result_df.transpose().values[1:], columns=headers)
-    result_graph['Year'] = [2023+i for i in range(t)]
-    fig = px.line(result_graph, x='Year', y=state_labels,
-        title= f'SDG {sdg_number} State Probabilities for {t} Years',
-        markers=True,
-        width=650
-    )
-    fig.update_layout(legend={'x':0,'y':-1.0}) 
-    st.plotly_chart(fig)
-
-# Correlation
-df_pos = pd.read_csv('positive_correlation.csv')
-df_neg = pd.read_csv('negative_correlation.csv')
-
-with st.container(border=True):
-    tab1, tab2 = st.tabs(['Positive Correlation Breakdown', 'Negative Correlation Breakdown'])
-    with tab1:
-        fig = px.bar(df_pos, x=[i+1 for i in range(16)], y=str(sdg_number),
-            title=f'Positive Contribution of SDG {sdg_number} to Other SDGs',
+    # Graph
+    with st.container(border=True):
+        headers = result_df.transpose().iloc[0]
+        result_graph  = pd.DataFrame(result_df.transpose().values[1:], columns=headers)
+        result_graph['Year'] = [2023+i for i in range(t)]
+        fig = px.line(result_graph, x='Year', y=state_labels,
+            title= f'SDG {sdg_number} State Probabilities for {t} Years',
+            markers=True,
             width=650
         )
-        fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
+        fig.update_layout(legend={'x':0,'y':-1.0}) 
         st.plotly_chart(fig)
-    with tab2:
-        fig = px.bar(df_neg, x=[i+1 for i in range(16)], y=str(sdg_number),
-            title=f'Negative Contribution of SDG {sdg_number} to Other SDGs',
-            width=650
-        )
-        fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
-        st.plotly_chart(fig)
+
+    # Correlation
+    df_pos = pd.read_csv('positive_correlation.csv')
+    df_neg = pd.read_csv('negative_correlation.csv')
+
+    with st.container(border=True):
+        tab1, tab2 = st.tabs(['Positive Correlation Breakdown', 'Negative Correlation Breakdown'])
+        with tab1:
+            fig = px.bar(df_pos, x=[i+1 for i in range(16)], y=str(sdg_number),
+                title=f'Positive Contribution of SDG {sdg_number} to Other SDGs',
+                width=650
+            )
+            fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
+            st.plotly_chart(fig)
+        with tab2:
+            fig = px.bar(df_neg, x=[i+1 for i in range(16)], y=str(sdg_number),
+                title=f'Negative Contribution of SDG {sdg_number} to Other SDGs',
+                width=650
+            )
+            fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
+            st.plotly_chart(fig)
