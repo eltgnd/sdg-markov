@@ -12,11 +12,6 @@ st.set_page_config(
     page_icon="🌿",
     layout="centered",
     initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://www.extremelycoolapp.com/help',
-        'Report a bug': "https://www.extremelycoolapp.com/bug",
-        'About': "# This is a header. This is an *extremely* cool app!"
-    }
 )
 
 # Simulation variables
@@ -94,11 +89,10 @@ df = pd.read_csv('data.csv')
 sdg_number = int(sdg.split()[1][:-1])
 st.caption(f'SET-UP FOR SDG {sdg_number}')
 
+initial_mat = create_initial_state_vector(df, sdg_number, current_year)
+trans_mat = create_transition_matrix(convert_sdg_states(df, sdg_number))
 with st.container(border=True):
     st.write('\n')
-    initial_mat = create_initial_state_vector(df, sdg_number, current_year)
-    trans_mat = create_transition_matrix(convert_sdg_states(df, sdg_number))
-    
     col1, col2, col3 = st.columns([0.5,0.7,0.2])
     with col1:
         st.write(f"""Initial state vector $=$ ${list_to_latex_matrix(initial_mat)}$""")
