@@ -3,8 +3,8 @@ import pandas as pd
 
 # Page config
 st.set_page_config(
-    page_title="SDG+Markov",
-    page_icon="🌿",
+    page_title="Code Breakdown",
+    page_icon="💡",
     layout="centered",
     initial_sidebar_state="expanded",
 )

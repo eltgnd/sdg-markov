@@ -5,7 +5,7 @@ from simulation import *
 
 # Page config
 st.set_page_config(
-    page_title="Full Report",
+    page_title="More Analysis",
     page_icon="📊",
     layout="centered",
     initial_sidebar_state="expanded",
@@ -18,7 +18,7 @@ num_timesteps = 10
 
 # Title
 st.title('📊')
-st.title('Full Report')
+st.title('More Analysis')
 
 # Bar chart animation
 def bar_animation(state):

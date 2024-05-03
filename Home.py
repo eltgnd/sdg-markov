@@ -50,8 +50,17 @@ def activate(var, val):
 st.image('https://github.com/eltgnd/sdg-markov/blob/master/logo.png?raw=true',width=100)
 st.title('SDG+Markov')
 with st.container(border=True):
-    st.write('Driving Sustainability Forward: Southeast Asia\'s Sustainable Development Goals Progression through Markovian Correlations')
+    st.write('**Driving Sustainability Forward: Southeast Asia\'s Sustainable Development Goals Progression through Markovian Correlations**')
+    st.write('This project conducts a Markov chain simulation on the progress states of the United Nations-initiated agenda, the 2030 Sustainable Development Goals (SDGs). After the simulation, correlations between each SDG\'s results were analyzed using a correlation SDG matrix by Pakkan et. al (2022).')
     st.link_button('View Google Colab Code', 'https://colab.research.google.com/drive/1rj9HwqAaJbhn-PMFno5ZcDcTDBho1VUY')
+
+with st.expander('Research Objectives'):
+    st.write("""
+
+- Examine the interrelationships between each Sustainable Development Goal (SDG) to understand their correlations.
+- Assess the feasibility of achieving the Sustainable Development Goals (SDGs) by 2030 in the context of the Asia-Pacific region, considering their intercorrelations.
+- Determine the optimal overarching direction and strategic approach, including policy recommendations, for the Asia-Pacific region to attain the Sustainable Development Goals (SDGs) by 2030.
+    """)
 
 st.caption('INTERACTIVE SIMULATION')
 
