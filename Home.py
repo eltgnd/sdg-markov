@@ -157,6 +157,7 @@ if ss.simulate_button:
                 width=650
             )
             fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
+            fig.update_xaxes(tickmode='linear')
             st.plotly_chart(fig)
         with tab2:
             fig = px.bar(df_neg, x=[i+1 for i in range(16)], y=str(sdg_number),
@@ -164,4 +165,5 @@ if ss.simulate_button:
                 width=650
             )
             fig.update_layout(xaxis_title='SDG', yaxis_title='Contribution')
+            fig.update_xaxes(tickmode='linear')
             st.plotly_chart(fig)

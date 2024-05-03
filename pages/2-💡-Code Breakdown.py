@@ -20,7 +20,7 @@ with st.expander('Data gathering'):
     sdg_data = pd.read_csv('data.csv')
     st.dataframe(sdg_data, height=200, use_container_width=True)
 
-    st.write('A correlation matrix of synergies and trade-offs of each SDG')
+    st.write('A correlation matrix of synergies and trade-offs of each SDG from the study of Pakkan et. al 2021. Their study is accessible at https://www.researchgate.net/publication/361263619_A_correlation_study_of_sustainable_development_goal_SDG_interactions.')
     corr = pd.read_csv('correlation_matrix.csv')
     st.dataframe(corr, height=200, use_container_width=True)
 
