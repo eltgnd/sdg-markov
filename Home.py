@@ -51,7 +51,7 @@ st.image('https://github.com/eltgnd/sdg-markov/blob/master/logo.png?raw=true',wi
 st.title('SDG+Markov')
 with st.container(border=True):
     st.write('**Driving Sustainability Forward: Southeast Asia\'s Sustainable Development Goals Progression through Markovian Correlations**')
-    st.write('This project conducts a Markov chain simulation on the progress states of the United Nations-initiated agenda, the 2030 Sustainable Development Goals (SDGs). After the simulation, correlations between each SDG\'s results were analyzed using a correlation SDG matrix by Pakkan et. al (2022).')
+    st.write('This project conducts a Markov chain simulation on the progress states of the United Nations-initiated agenda, the 2030 Sustainable Development Goals (SDGs). After the simulation, correlations between each SDG\'s results were analyzed using a correlation SDG matrix by Pakkan et. al (2021).')
     st.link_button('View Google Colab Code', 'https://colab.research.google.com/drive/1rj9HwqAaJbhn-PMFno5ZcDcTDBho1VUY')
 
 with st.expander('Research Objectives'):
